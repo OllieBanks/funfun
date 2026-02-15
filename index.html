@@ -1,0 +1,1350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Is Rachel the number 1 shot</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    button, .floating-dog, .corner-selfie {
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+
+    html {
+      -webkit-text-size-adjust: 100%;
+    }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      min-height: 100dvh;
+      font-family: 'Fredoka', sans-serif;
+      background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fad0c4 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      overflow-x: hidden;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 24px;
+      padding: 2.5rem;
+      max-width: 480px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+      position: relative;
+    }
+    .card.card--wide {
+      max-width: 700px;
+    }
+
+    .fun-image {
+      width: 100%;
+      max-height: 280px;
+      object-fit: cover;
+      border-radius: 16px;
+      margin-bottom: 1.5rem;
+    }
+
+    h1 {
+      color: #c71585;
+      font-size: 1.75rem;
+      font-weight: 600;
+      margin: 0 0 1.5rem;
+      line-height: 1.3;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 2rem;
+      justify-content: space-between;
+      align-items: center;
+      min-height: 100px;
+      position: relative;
+      padding: 0 1rem;
+    }
+
+    .btn {
+      font-family: 'Fredoka', sans-serif;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .btn-yes {
+      font-size: 0.95rem;
+      padding: 0.5rem 1.1rem;
+      background: linear-gradient(135deg, #e91e63, #f06292);
+      color: white;
+      z-index: 2;
+      position: relative;
+      transition: transform 0.2s ease-out, box-shadow 0.2s;
+    }
+
+    .btn-yes:hover {
+      box-shadow: 0 8px 24px rgba(233, 30, 99, 0.4);
+    }
+
+    .btn-no {
+      font-size: 1.5rem;
+      padding: 1rem 2.5rem;
+      background: linear-gradient(135deg, #78909c, #90a4ae);
+      color: white;
+      transition: left 0.15s ease-out, top 0.15s ease-out;
+      position: fixed;
+      left: 54%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 10;
+    }
+
+    .landing {
+      display: block;
+    }
+
+    .landing.hidden {
+      display: none;
+    }
+
+    .heffalump-section {
+      display: none;
+      text-align: center;
+      animation: fadeIn 0.6s ease-out;
+      gap: 1.5rem;
+      align-items: flex-start;
+    }
+
+    .heffalump-section.visible {
+      display: flex;
+    }
+
+    .heffalump-section .heffalump-section-main {
+      flex: 1;
+      min-width: 0;
+      text-align: center;
+    }
+
+    .heffalump-section .archer-side {
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .heffalump-section .archer-image {
+      width: 100%;
+      max-width: 140px;
+      border-radius: 16px;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+      object-fit: cover;
+    }
+
+    .heffalump-section .archer-btn {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 0.85rem;
+      padding: 0.5rem 0.9rem;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      background: linear-gradient(135deg, #546e7a, #78909c);
+      color: white;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .heffalump-section .archer-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    }
+
+    .heffalump-section h2 {
+      color: #c71585;
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .heffalump-section .correct {
+      color: #2e7d32;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+    }
+
+    .heffalump-section .next-question {
+      color: #333;
+      font-size: 1.15rem;
+      margin-bottom: 1.25rem;
+      line-height: 1.4;
+    }
+
+    .heffalump-section .answer-btns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+    }
+
+    .heffalump-section .answer-btn {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1rem;
+      padding: 0.75rem 1.25rem;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      background: linear-gradient(135deg, #e91e63, #f06292);
+      color: white;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .heffalump-section .answer-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 20px rgba(233, 30, 99, 0.4);
+    }
+    .heffalump-section .answer-btn.answer-btn--run {
+      position: fixed;
+      transition: left 0.08s ease-out, top 0.08s ease-out;
+      z-index: 10;
+    }
+
+    .heffalump-section img,
+    .heffalump-section .jungle-image {
+      width: 100%;
+      max-width: 400px;
+      border-radius: 16px;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+    }
+    .heffalump-section .jungle-image {
+      margin: 0 auto 1.25rem;
+      display: block;
+    }
+
+    .rachel-cute-section {
+      display: none;
+      text-align: center;
+      animation: fadeIn 0.6s ease-out;
+    }
+    .rachel-cute-section.visible {
+      display: block;
+    }
+    .rachel-cute-section h2 {
+      color: #c71585;
+      font-size: 1.5rem;
+      margin-bottom: 1.25rem;
+      line-height: 1.4;
+    }
+    .rachel-cute-section .section-image {
+      width: 100%;
+      max-width: 400px;
+      border-radius: 16px;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+      margin: 0 auto 1.25rem;
+      display: block;
+    }
+    .rachel-cute-section .answer-btns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+    }
+    .rachel-cute-section .answer-btn {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1rem;
+      padding: 0.75rem 1.25rem;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      background: linear-gradient(135deg, #e91e63, #f06292);
+      color: white;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .rachel-cute-section .answer-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 20px rgba(233, 30, 99, 0.4);
+    }
+
+    .rachel-cute-section .rachel-top-left-btn {
+      position: fixed;
+      top: 12px;
+      left: 12px;
+      z-index: 20;
+      font-family: 'Fredoka', sans-serif;
+      font-size: 0.9rem;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      background: linear-gradient(135deg, #e91e63, #f06292);
+      color: white;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      transition: transform 0.2s, box-shadow 0.2s;
+      max-width: 90vw;
+      line-height: 1.3;
+    }
+    .rachel-cute-section .rachel-top-left-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 20px rgba(233, 30, 99, 0.4);
+    }
+
+    .mountain-section {
+      display: none;
+      text-align: center;
+      animation: fadeIn 0.6s ease-out;
+    }
+    .mountain-section.visible {
+      display: block;
+    }
+    .mountain-section h2 {
+      color: #c71585;
+      font-size: 1.5rem;
+      margin-bottom: 1.25rem;
+      line-height: 1.4;
+    }
+    .mountain-section .section-image {
+      width: 100%;
+      max-width: 400px;
+      border-radius: 16px;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+      margin: 0 auto 1.25rem;
+      display: block;
+    }
+    .mountain-section .answer-btns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+    }
+    .mountain-section .answer-btn {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1rem;
+      padding: 0.75rem 1.25rem;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      background: linear-gradient(135deg, #e91e63, #f06292);
+      color: white;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .mountain-section .answer-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 20px rgba(233, 30, 99, 0.4);
+    }
+
+    .pizza-section {
+      display: none;
+      text-align: center;
+      animation: fadeIn 0.6s ease-out;
+    }
+    .pizza-section.visible {
+      display: block;
+    }
+    .pizza-section .section-image {
+      width: 100%;
+      max-width: 500px;
+      border-radius: 16px;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+      margin: 0 auto;
+      display: block;
+    }
+    .pizza-section .pizza-caption {
+      color: #c71585;
+      font-size: 1.75rem;
+      font-weight: 600;
+      margin: 1.25rem 0 1rem;
+    }
+    .pizza-section .start-over-btn {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1rem;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      background: linear-gradient(135deg, #e91e63, #f06292);
+      color: white;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .pizza-section .start-over-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 20px rgba(233, 30, 99, 0.4);
+    }
+
+    .sausage-popup-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.92);
+      z-index: 201;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      padding: 1rem;
+      animation: fadeIn 0.25s ease-out;
+      cursor: pointer;
+    }
+    .sausage-popup-overlay.visible {
+      display: flex;
+    }
+    .sausage-popup-overlay img {
+      max-width: 95vw;
+      max-height: 75vh;
+      object-fit: contain;
+      display: block;
+      border-radius: 12px;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+    }
+    .sausage-popup-overlay .sausage-caption {
+      color: white;
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-top: 1rem;
+      text-align: center;
+    }
+
+    .popup-jungle-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.92);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      animation: fadeIn 0.25s ease-out;
+      cursor: pointer;
+    }
+    .popup-jungle-overlay.visible {
+      display: flex;
+    }
+    .popup-jungle-overlay img {
+      width: 100vw;
+      height: 100vh;
+      object-fit: contain;
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .corner-selfie {
+      position: fixed;
+      top: max(12px, env(safe-area-inset-top));
+      right: max(12px, env(safe-area-inset-right));
+      width: 64px;
+      height: 64px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 3px solid rgba(255, 255, 255, 0.9);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+      z-index: 5;
+      transition: transform 0.2s;
+    }
+    .corner-selfie:hover {
+      transform: scale(1.08);
+    }
+
+    .top-left-note {
+      position: fixed;
+      top: max(12px, env(safe-area-inset-top));
+      left: max(12px, env(safe-area-inset-left));
+      font-family: 'Fredoka', sans-serif;
+      font-size: 0.95rem;
+      color: #c71585;
+      background: rgba(255, 255, 255, 0.95);
+      padding: 0.6rem 1rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      max-width: 280px;
+      line-height: 1.4;
+      z-index: 5;
+    }
+
+    .banner-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      animation: fadeIn 0.25s ease-out;
+    }
+    .banner-overlay.visible {
+      display: flex;
+    }
+    .banner-popup {
+      background: linear-gradient(135deg, #c71585, #e91e63);
+      color: white;
+      font-size: 1.5rem;
+      font-weight: 600;
+      padding: 1.25rem 2rem;
+      border-radius: 16px;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+      text-align: center;
+      max-width: 90%;
+      cursor: pointer;
+    }
+
+    .aggressive-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      z-index: 101;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      animation: fadeIn 0.2s ease-out;
+    }
+    .aggressive-overlay.visible {
+      display: flex;
+    }
+    .aggressive-popup {
+      background: #1a0a0a;
+      color: #ff4444;
+      font-size: 1.4rem;
+      font-weight: 800;
+      padding: 1.5rem 2rem;
+      border-radius: 12px;
+      box-shadow: 0 0 0 4px #ff4444, 0 16px 48px rgba(0, 0, 0, 0.6);
+      text-align: center;
+      max-width: 90%;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      line-height: 1.35;
+    }
+
+    .floating-dogs-container {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 4;
+    }
+    .floating-dogs-container .floating-dog {
+      pointer-events: auto;
+    }
+
+    .floating-dog {
+      position: fixed;
+      width: 48px;
+      height: 48px;
+      object-fit: cover;
+      border-radius: 50%;
+      cursor: pointer;
+      transform: translate(-50%, -50%);
+      transition: left 3s ease-in-out, top 3s ease-in-out;
+      animation: dogSpin 4s linear infinite;
+    }
+
+    @keyframes dogSpin {
+      from { transform: translate(-50%, -50%) rotate(0deg); }
+      to { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+
+    .woof-popup {
+      position: fixed;
+      padding: 0.4rem 0.75rem;
+      background: rgba(0, 0, 0, 0.85);
+      color: white;
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 12px;
+      white-space: nowrap;
+      z-index: 50;
+      pointer-events: none;
+      opacity: 0;
+      transform: translateY(4px);
+      transition: opacity 0.15s ease, transform 0.15s ease;
+    }
+    .woof-popup.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .floating-dog--growing {
+      z-index: 20;
+      animation: none;
+      transition: none;
+    }
+
+    .dog-crazy-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.3);
+      cursor: pointer;
+    }
+    .dog-crazy-overlay.visible {
+      display: flex;
+    }
+    .dog-crazy-overlay-inner {
+      position: relative;
+      width: 90vmin;
+      height: 90vmin;
+      animation: crazyBounce 0.15s ease-in-out infinite alternate;
+    }
+    .dog-crazy-overlay-inner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+      animation: crazySpin 0.2s linear infinite;
+    }
+    .dog-crazy-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Fredoka', sans-serif;
+      font-size: 8vmin;
+      font-weight: 800;
+      color: #ff00ff;
+      text-shadow: 0 0 20px #ff00ff, 0 0 40px #ff00ff;
+      animation: crazyText 0.1s ease-in-out infinite alternate;
+      pointer-events: none;
+    }
+    @keyframes crazyBounce {
+      from { transform: scale(1); }
+      to { transform: scale(1.1); }
+    }
+    @keyframes crazySpin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    @keyframes crazyText {
+      from { transform: translate(-50%, -50%) scale(1) rotate(-5deg); color: #ff00ff; }
+      to { transform: translate(-50%, -50%) scale(1.2) rotate(5deg); color: #00ffff; }
+    }
+
+    .spam-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 10000;
+      background: rgba(0, 0, 0, 0.85);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      cursor: pointer;
+      animation: fadeIn 0.3s ease-out;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+    }
+    .spam-overlay.hidden {
+      display: none;
+    }
+    .spam-overlay-content {
+      background: #2d2d2d;
+      border: 2px solid #cc3333;
+      border-radius: 8px;
+      padding: 2rem;
+      max-width: 480px;
+      width: 100%;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+    }
+    .spam-overlay-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+    }
+    .spam-overlay-icon {
+      font-size: 2.5rem;
+      filter: drop-shadow(0 0 4px rgba(255, 68, 68, 0.6));
+    }
+    .spam-overlay-warning {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #ff3333;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      text-shadow: 0 0 10px rgba(255, 51, 51, 0.4);
+    }
+    .spam-overlay-message {
+      font-size: 0.95rem;
+      color: #ffcccc;
+      margin-bottom: 1.25rem;
+      line-height: 1.5;
+    }
+    .spam-overlay-status {
+      font-size: 0.85rem;
+      color: #4a9eff;
+      margin-bottom: 0.5rem;
+      min-height: 1.2em;
+    }
+    .spam-overlay-progress-wrap {
+      background: #1a1a1a;
+      border: 1px solid #444;
+      border-radius: 4px;
+      height: 22px;
+      overflow: hidden;
+      margin-bottom: 0.5rem;
+    }
+    .spam-overlay-progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #4a9eff, #6bb3ff);
+      border-radius: 3px;
+      width: 0%;
+      transition: width 0.15s linear;
+    }
+    .spam-overlay-percent {
+      font-size: 0.8rem;
+      color: #999;
+      text-align: right;
+    }
+    .spam-overlay-hint {
+      font-size: 0.8rem;
+      color: #666;
+      margin-top: 1.25rem;
+      text-align: center;
+    }
+    .main-content {
+      opacity: 1;
+      transition: opacity 0.3s ease;
+    }
+    .main-content.hidden {
+      opacity: 0;
+      pointer-events: none;
+      visibility: hidden;
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 1rem;
+        padding-left: max(1rem, env(safe-area-inset-left));
+        padding-right: max(1rem, env(safe-area-inset-right));
+        min-height: 100dvh;
+        min-height: -webkit-fill-available;
+      }
+      .card {
+        padding: 1.25rem;
+        border-radius: 20px;
+      }
+      .card.card--wide {
+        max-width: 100%;
+        padding: 1rem;
+      }
+      .fun-image {
+        max-height: 200px;
+        margin-bottom: 1rem;
+      }
+      h1 {
+        font-size: 1.35rem;
+        margin-bottom: 1rem;
+      }
+      .buttons {
+        gap: 1rem;
+        min-height: 80px;
+        padding: 0 0.5rem;
+      }
+      .btn-yes {
+        font-size: 1rem;
+        padding: 0.75rem 1.25rem;
+        min-height: 44px;
+      }
+      .btn-no {
+        font-size: 1.25rem;
+        padding: 0.85rem 1.75rem;
+        min-height: 44px;
+      }
+      .top-left-note {
+        font-size: 0.85rem;
+        padding: 0.5rem 0.75rem;
+        max-width: calc(100vw - 100px);
+        top: max(8px, env(safe-area-inset-top));
+        left: max(8px, env(safe-area-inset-left));
+      }
+      .corner-selfie {
+        width: 52px;
+        height: 52px;
+        top: max(8px, env(safe-area-inset-top));
+        right: max(8px, env(safe-area-inset-right));
+      }
+      .heffalump-section.visible {
+        flex-direction: column;
+      }
+      .heffalump-section h2 {
+        font-size: 1.25rem;
+      }
+      .heffalump-section .archer-side {
+        order: -1;
+      }
+      .heffalump-section .archer-image {
+        max-width: 100px;
+      }
+      .heffalump-section .answer-btn,
+      .rachel-cute-section .answer-btn,
+      .mountain-section .answer-btn {
+        padding: 0.85rem 1.25rem;
+        min-height: 44px;
+      }
+      .rachel-cute-section h2,
+      .mountain-section h2 {
+        font-size: 1.25rem;
+      }
+      .rachel-cute-section .rachel-top-left-btn {
+        font-size: 0.8rem;
+        padding: 0.5rem 0.85rem;
+        top: max(8px, env(safe-area-inset-top));
+        left: max(8px, env(safe-area-inset-left));
+      }
+      .pizza-section .pizza-caption {
+        font-size: 1.5rem;
+      }
+      .banner-popup {
+        font-size: 1.25rem;
+        padding: 1rem 1.5rem;
+        margin: 1rem;
+      }
+      .aggressive-popup {
+        font-size: 1.15rem;
+        padding: 1rem 1.5rem;
+        margin: 1rem;
+      }
+      .spam-overlay {
+        padding: 1rem;
+      }
+      .spam-overlay-content {
+        padding: 1.25rem;
+      }
+      .spam-overlay-header {
+        flex-direction: column;
+        gap: 0.5rem;
+        text-align: center;
+      }
+      .spam-overlay-warning {
+        font-size: 1rem;
+        line-height: 1.3;
+      }
+      .spam-overlay-message {
+        font-size: 0.9rem;
+      }
+      .floating-dog {
+        width: 44px;
+        height: 44px;
+        min-width: 44px;
+        min-height: 44px;
+      }
+      .dog-crazy-overlay-inner {
+        width: 85vmin;
+        height: 85vmin;
+      }
+      .dog-crazy-text {
+        font-size: 6vmin;
+      }
+      .sausage-popup-overlay .sausage-caption {
+        font-size: 1.25rem;
+      }
+    }
+
+    @media (max-width: 380px) {
+      h1 { font-size: 1.2rem; }
+      .top-left-note {
+        font-size: 0.8rem;
+        max-width: calc(100vw - 80px);
+      }
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+      .btn:active,
+      .answer-btn:active,
+      .floating-dog:active {
+        transform: scale(0.98);
+      }
+      .btn-yes:active {
+        transform: scale(0.98);
+      }
+    }
+
+  </style>
+</head>
+<body>
+  <div class="spam-overlay" id="spamOverlay">
+    <div class="spam-overlay-content">
+      <div class="spam-overlay-header">
+        <span class="spam-overlay-icon">⚠️</span>
+        <span class="spam-overlay-warning">CRITICAL: 247 Malware Threats Detected</span>
+      </div>
+      <div class="spam-overlay-message">Your device is infected. Bank details, passwords, and photos may have been accessed. Immediate action required to prevent identity theft and data loss. Do not close this window.</div>
+      <div class="spam-overlay-status" id="spamStatus">Connecting to update server...</div>
+      <div class="spam-overlay-progress-wrap">
+        <div class="spam-overlay-progress-bar" id="spamProgressBar"></div>
+      </div>
+      <div class="spam-overlay-percent" id="spamPercent">0%</div>
+      <div class="spam-overlay-hint">Do not close — click to authorize removal or wait for automatic fix</div>
+    </div>
+  </div>
+
+  <div class="main-content hidden" id="mainContent">
+  <div class="top-left-note" id="topLeftNote">Either take the quiz, or play the Ginnie Game! Your Choice!</div>
+  <img
+    class="corner-selfie"
+    id="cornerSelfie"
+    src="Rachel Selfie.JPEG"
+    alt=""
+    title=""
+  >
+
+  <div class="banner-overlay" id="bannerOverlay">
+    <div class="banner-popup" id="bannerPopup">It'ssss Rachelllll</div>
+  </div>
+
+  <div class="aggressive-overlay" id="aggressiveOverlay">
+    <div class="aggressive-popup" id="aggressivePopup">If you wake me up one more time Jungle!</div>
+  </div>
+
+  <div class="popup-jungle-overlay" id="popupJungleOverlay">
+    <img src="PopUp Jungle.JPEG" alt="">
+  </div>
+
+  <div class="woof-popup" id="woofPopup">Woof</div>
+
+  <div class="dog-crazy-overlay" id="dogCrazyOverlay">
+    <div class="dog-crazy-overlay-inner">
+      <img src="dog.png" alt="">
+      <span class="dog-crazy-text">CRAZY</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="landing" id="landing">
+      <div class="floating-dogs-container" id="floatingDogsContainer"></div>
+      <img
+        class="fun-image"
+        src="Beach.jpeg"
+        alt=""
+      >
+      <h1>Will you be my valentine?</h1>
+      <div class="buttons">
+        <button type="button" class="btn btn-yes" id="btnYes">Yes!</button>
+        <button type="button" class="btn btn-no" id="btnNo">No</button>
+      </div>
+    </div>
+
+    <div class="heffalump-section" id="heffalumpSection">
+      <div class="heffalump-section-main">
+        <p class="correct">Correct Answer</p>
+        <h2>Next Question – What do we think about Jungle?</h2>
+        <img src="Jungle.JPEG" alt="Jungle" class="jungle-image">
+        <div class="answer-btns">
+          <button type="button" class="answer-btn" id="btnCutest" data-answer="cutest">No 1 Cutest</button>
+          <button type="button" class="answer-btn" id="btnTerrorist" data-answer="terrorist">No1 Terrorist</button>
+        </div>
+      </div>
+      <div class="archer-side">
+        <img src="Archer.JPEG" alt="" class="archer-image">
+        <button type="button" class="archer-btn" id="archerBtn">Really Angry Button</button>
+      </div>
+    </div>
+
+    <div class="rachel-cute-section" id="rachelCuteSection">
+      <button type="button" class="rachel-top-left-btn" id="rachelTopLeftBtn">Really Not Funny Button</button>
+      <h2>NOT FUNNY</h2>
+      <img src="Canyon.JPEG" alt="Canyon" class="section-image">
+      <div class="answer-btns">
+        <button type="button" class="answer-btn" id="btnExactly">Exaclty</button>
+        <button type="button" class="answer-btn" id="btnExactlyTimes2">Exactly Times 2</button>
+      </div>
+    </div>
+
+    <div class="mountain-section" id="mountainSection">
+      <h2>What's better than cycling up a mountain?</h2>
+      <img src="Mountain.JPEG" alt="Mountain" class="section-image">
+      <div class="answer-btns">
+        <button type="button" class="answer-btn" id="btnPizza">Pizza</button>
+      </div>
+    </div>
+
+    <div class="pizza-section" id="pizzaSection">
+      <img src="Pizza.jpeg" alt="Pizza" class="section-image">
+      <p class="pizza-caption">Not Pizza, Us!</p>
+      <button type="button" class="start-over-btn" id="btnStartOver">Start over</button>
+    </div>
+  </div>
+
+  <div class="sausage-popup-overlay" id="sausagePopupOverlay">
+    <img src="Sausage.jpeg" alt="Sausage">
+    <p class="sausage-caption">Joking, it's obviously sausage rolls</p>
+  </div>
+  </div>
+
+  <script>
+    var spamOverlay = document.getElementById('spamOverlay');
+    var mainContent = document.getElementById('mainContent');
+    var spamProgressBar = document.getElementById('spamProgressBar');
+    var spamPercent = document.getElementById('spamPercent');
+    var spamStatus = document.getElementById('spamStatus');
+    var spamDismissTimeout;
+    var spamProgressInterval;
+
+    var spamStatusMessages = [
+      'Alert: Backdoor access detected...',
+      'Quarantining infected files (23 critical)...',
+      'Blocking unauthorized data transmission...',
+      'Restoring encrypted personal data...',
+      'Threat neutralized. Your device is now secure.'
+    ];
+
+    function dismissSpamOverlay() {
+      if (spamOverlay.classList.contains('hidden')) return;
+      spamOverlay.classList.add('hidden');
+      mainContent.classList.remove('hidden');
+      clearTimeout(spamDismissTimeout);
+      clearInterval(spamProgressInterval);
+    }
+
+    function runFakeDownload() {
+      var start = Date.now();
+      var duration = 5000;
+
+      spamProgressInterval = setInterval(function () {
+        var elapsed = Date.now() - start;
+        var pct = Math.min(100, Math.floor((elapsed / duration) * 100));
+
+        if (spamProgressBar) spamProgressBar.style.width = pct + '%';
+        if (spamPercent) spamPercent.textContent = pct + '%';
+
+        var msgIndex = Math.min(Math.floor((elapsed / duration) * spamStatusMessages.length), spamStatusMessages.length - 1);
+        if (spamStatus) spamStatus.textContent = spamStatusMessages[msgIndex];
+
+        if (pct >= 100) {
+          clearInterval(spamProgressInterval);
+          dismissSpamOverlay();
+        }
+      }, 50);
+    }
+
+    if (spamOverlay) {
+      spamOverlay.addEventListener('click', dismissSpamOverlay);
+      spamDismissTimeout = setTimeout(dismissSpamOverlay, 5000);
+      runFakeDownload();
+    }
+
+    const btnNo = document.getElementById('btnNo');
+    const btnYes = document.getElementById('btnYes');
+    const landing = document.getElementById('landing');
+    const heffalumpSection = document.getElementById('heffalumpSection');
+    const card = document.querySelector('.card');
+
+    function moveNoButton() {
+      const padding = 16;
+      const maxX = window.innerWidth - btnNo.offsetWidth - padding;
+      const maxY = window.innerHeight - btnNo.offsetHeight - padding;
+      const minX = padding;
+      const minY = padding;
+
+      const x = minX + Math.random() * Math.max(0, maxX - minX);
+      const y = minY + Math.random() * Math.max(0, maxY - minY);
+
+      btnNo.style.left = x + 'px';
+      btnNo.style.top = y + 'px';
+      btnNo.style.transform = 'none';
+    }
+
+    function nudgeYesButton() {
+      const drift = 36;
+      const x = (Math.random() * 2 - 1) * drift;
+      const y = (Math.random() * 2 - 1) * drift;
+      btnYes.style.transform = 'translate(' + x + 'px, ' + y + 'px)';
+    }
+
+    btnYes.addEventListener('mouseenter', nudgeYesButton);
+    btnYes.addEventListener('touchstart', function (e) {
+      if (e.target === btnYes) nudgeYesButton();
+    }, { passive: true });
+
+    btnNo.addEventListener('mouseenter', moveNoButton);
+    btnNo.addEventListener('touchstart', function (e) {
+      e.preventDefault();
+      moveNoButton();
+    }, { passive: false });
+
+    function positionNoButtonNextToYes() {
+      const yesRect = btnYes.getBoundingClientRect();
+      const gap = 16;
+      btnNo.style.left = (yesRect.right + gap) + 'px';
+      btnNo.style.top = (yesRect.top + yesRect.height / 2 - btnNo.offsetHeight / 2) + 'px';
+      btnNo.style.transform = 'none';
+    }
+    window.addEventListener('load', positionNoButtonNextToYes);
+
+    const floatingDogsContainer = document.getElementById('floatingDogsContainer');
+    const woofPopup = document.getElementById('woofPopup');
+
+    function getRandomPosition() {
+      const padding = 40;
+      const maxX = window.innerWidth - padding;
+      const maxY = window.innerHeight - padding;
+      return {
+        left: padding + Math.random() * Math.max(0, maxX - padding) + 'px',
+        top: padding + Math.random() * Math.max(0, maxY - padding) + 'px'
+      };
+    }
+
+    function moveDogToRandomPosition(dog) {
+      var pos = getRandomPosition();
+      dog.style.left = pos.left;
+      dog.style.top = pos.top;
+    }
+
+    function scheduleNextMove(dog) {
+      if (dog.dataset.growing === '1') return;
+      dog._moveTimeoutId = setTimeout(function () {
+        dog._moveTimeoutId = null;
+        if (!floatingDogsContainer || !floatingDogsContainer.contains(dog)) return;
+        if (dog.dataset.growing === '1') return;
+        moveDogToRandomPosition(dog);
+        scheduleNextMove(dog);
+      }, 2000 + Math.random() * 3000);
+    }
+
+    var growingDog = null;
+    var growthIntervalId = null;
+
+    function resetGrowingDog(dog) {
+      if (!dog) return;
+      if (growthIntervalId && dog === growingDog) {
+        clearInterval(growthIntervalId);
+        growthIntervalId = null;
+      }
+      dog.classList.remove('floating-dog--growing');
+      dog.removeAttribute('data-growing');
+      dog.style.width = '';
+      dog.style.height = '';
+      dog.style.transform = '';
+      dog.style.transition = '';
+      var pos = getRandomPosition();
+      dog.style.left = pos.left;
+      dog.style.top = pos.top;
+      growingDog = null;
+      scheduleNextMove(dog);
+    }
+
+    function startDogGrowth(dog) {
+      if (growingDog === dog) return;
+      if (dog.dataset.grower !== '1') return;
+      if (growingDog) resetGrowingDog(growingDog);
+      if (dog._moveTimeoutId) {
+        clearTimeout(dog._moveTimeoutId);
+        dog._moveTimeoutId = null;
+      }
+      growingDog = dog;
+      dog.dataset.growing = '1';
+      dog.classList.add('floating-dog--growing');
+      dog.style.left = '50%';
+      dog.style.top = '50%';
+      dog.style.transform = 'translate(-50%, -50%)';
+      dog.style.transition = 'none';
+
+      var startTime = Date.now();
+      var baseSize = dog.offsetWidth || 48;
+      var doubleEveryMs = 450;
+
+      growthIntervalId = setInterval(function () {
+        if (!floatingDogsContainer || !floatingDogsContainer.contains(dog)) {
+          clearInterval(growthIntervalId);
+          growthIntervalId = null;
+          return;
+        }
+        var elapsed = (Date.now() - startTime) / 1000;
+        var scale = Math.pow(2, elapsed / (doubleEveryMs / 1000));
+        var size = Math.min(baseSize * scale, Math.max(window.innerWidth, window.innerHeight) * 1.3);
+
+        dog.style.width = size + 'px';
+        dog.style.height = size + 'px';
+
+        if (size >= Math.max(window.innerWidth, window.innerHeight) * 0.9) {
+          clearInterval(growthIntervalId);
+          growthIntervalId = null;
+          growingDog = null;
+          dog.classList.remove('floating-dog--growing');
+          dog.removeAttribute('data-growing');
+          dog.style.display = 'none';
+          var crazyOverlay = document.getElementById('dogCrazyOverlay');
+          if (crazyOverlay) {
+            crazyOverlay.classList.add('visible');
+            crazyOverlay.onclick = function () {
+              crazyOverlay.classList.remove('visible');
+              crazyOverlay.onclick = null;
+              dog.style.display = '';
+              dog.style.width = '';
+              dog.style.height = '';
+              dog.style.transform = '';
+              dog.style.transition = '';
+              var pos = getRandomPosition();
+              dog.style.left = pos.left;
+              dog.style.top = pos.top;
+              scheduleNextMove(dog);
+            };
+          }
+        }
+      }, 30);
+    }
+
+    function createFloatingDog(isGrower) {
+      const dog = document.createElement('img');
+      dog.className = 'floating-dog';
+      dog.src = 'dog.png';
+      dog.alt = '';
+      if (isGrower) dog.dataset.grower = '1';
+      var pos = getRandomPosition();
+      dog.style.left = pos.left;
+      dog.style.top = pos.top;
+      return dog;
+    }
+
+    function initFloatingDogs() {
+      if (!floatingDogsContainer) return;
+      var dogs = [];
+      for (var i = 0; i < 7; i++) {
+        var dog = createFloatingDog(false);
+        dogs.push(dog);
+        floatingDogsContainer.appendChild(dog);
+        scheduleNextMove(dog);
+      }
+      var growerIndex = Math.floor(Math.random() * 7);
+      dogs[growerIndex].dataset.grower = '1';
+    }
+    initFloatingDogs();
+
+    if (floatingDogsContainer) {
+      floatingDogsContainer.addEventListener('click', function (e) {
+        if (!e.target.classList.contains('floating-dog')) return;
+        var dog = e.target;
+        if (dog.dataset.grower === '1') {
+          startDogGrowth(dog);
+        } else {
+          var newDog = createFloatingDog(false);
+          floatingDogsContainer.appendChild(newDog);
+          scheduleNextMove(newDog);
+        }
+      });
+    }
+
+    btnYes.addEventListener('click', function () {
+      landing.classList.add('hidden');
+      heffalumpSection.classList.add('visible');
+      card.classList.add('card--wide');
+      cornerSelfie.style.display = 'none';
+      var topLeftNote = document.getElementById('topLeftNote');
+      if (topLeftNote) topLeftNote.style.display = 'none';
+      if (floatingDogsContainer) floatingDogsContainer.style.display = 'none';
+    });
+
+    const cornerSelfie = document.getElementById('cornerSelfie');
+    const bannerOverlay = document.getElementById('bannerOverlay');
+    const bannerPopup = document.getElementById('bannerPopup');
+
+    cornerSelfie.addEventListener('click', function () {
+      bannerOverlay.classList.add('visible');
+    });
+
+    function hideBanner() {
+      bannerOverlay.classList.remove('visible');
+    }
+    bannerOverlay.addEventListener('click', hideBanner);
+    bannerPopup.addEventListener('click', function (e) {
+      e.stopPropagation();
+      hideBanner();
+    });
+
+    const aggressiveOverlay = document.getElementById('aggressiveOverlay');
+    const aggressivePopup = document.getElementById('aggressivePopup');
+    const archerBtn = document.getElementById('archerBtn');
+
+    archerBtn.addEventListener('click', function () {
+      aggressiveOverlay.classList.add('visible');
+    });
+    function hideAggressive() {
+      aggressiveOverlay.classList.remove('visible');
+    }
+    aggressiveOverlay.addEventListener('click', hideAggressive);
+    aggressivePopup.addEventListener('click', function (e) {
+      e.stopPropagation();
+      hideAggressive();
+    });
+
+    const popupJungleOverlay = document.getElementById('popupJungleOverlay');
+    const rachelTopLeftBtn = document.getElementById('rachelTopLeftBtn');
+
+    rachelTopLeftBtn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      popupJungleOverlay.classList.add('visible');
+    });
+    popupJungleOverlay.addEventListener('click', function () {
+      popupJungleOverlay.classList.remove('visible');
+    });
+
+    const rachelCuteSection = document.getElementById('rachelCuteSection');
+    const btnCutest = document.getElementById('btnCutest');
+    const mountainSection = document.getElementById('mountainSection');
+    const btnExactly = document.getElementById('btnExactly');
+    const btnExactlyTimes2 = document.getElementById('btnExactlyTimes2');
+
+    btnCutest.addEventListener('click', function () {
+      heffalumpSection.classList.remove('visible');
+      card.classList.remove('card--wide');
+      rachelCuteSection.classList.add('visible');
+    });
+
+    function showMountainSection() {
+      rachelCuteSection.classList.remove('visible');
+      mountainSection.classList.add('visible');
+    }
+    btnExactly.addEventListener('click', showMountainSection);
+    btnExactlyTimes2.addEventListener('click', showMountainSection);
+
+    const pizzaSection = document.getElementById('pizzaSection');
+    const btnPizza = document.getElementById('btnPizza');
+    const sausagePopupOverlay = document.getElementById('sausagePopupOverlay');
+    const btnStartOver = document.getElementById('btnStartOver');
+
+    btnPizza.addEventListener('click', function () {
+      mountainSection.classList.remove('visible');
+      pizzaSection.classList.add('visible');
+    });
+
+    btnStartOver.addEventListener('click', function (e) {
+      e.stopPropagation();
+      sausagePopupOverlay.classList.add('visible');
+    });
+    sausagePopupOverlay.addEventListener('click', function () {
+      sausagePopupOverlay.classList.remove('visible');
+    });
+
+    const btnTerrorist = document.getElementById('btnTerrorist');
+    function moveTerroristButton() {
+      btnTerrorist.classList.add('answer-btn--run');
+      const padding = 16;
+      const maxX = window.innerWidth - btnTerrorist.offsetWidth - padding;
+      const maxY = window.innerHeight - btnTerrorist.offsetHeight - padding;
+      const minX = padding;
+      const minY = padding;
+      const x = minX + Math.random() * Math.max(0, maxX - minX);
+      const y = minY + Math.random() * Math.max(0, maxY - minY);
+      btnTerrorist.style.left = x + 'px';
+      btnTerrorist.style.top = y + 'px';
+      btnTerrorist.style.transform = 'none';
+    }
+    btnTerrorist.addEventListener('mouseenter', moveTerroristButton);
+    btnTerrorist.addEventListener('touchstart', function (e) {
+      e.preventDefault();
+      moveTerroristButton();
+    }, { passive: false });
+  </script>
+</body>
+</html>
